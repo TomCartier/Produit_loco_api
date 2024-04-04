@@ -211,4 +211,20 @@ class Product
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'picture' => $this->getPicture(),
+            'price' => $this->getPrice(),
+            'stock' => $this->getStock(),
+            // 'creation_date' => $this->getCreationDate()->format('Y-m-d H:i:s'),
+            'creation_date' => $this->getCreationDate(),
+            'farm' => $this->getFarm()->getName(),
+            'categorie' => $this->getCategorie()->getName(),
+        ];
+    }
 }
