@@ -40,7 +40,7 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Categorie $categorie = null;
+    private ?Category $category = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favoris')]
     private Collection $users;
@@ -143,14 +143,14 @@ class Product
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    public function getCategory(): ?Category
     {
-        return $this->categorie;
+        return $this->category;
     }
 
-    public function setCategorie(?Categorie $categorie): static
+    public function setCategory(?Category $Category): static
     {
-        $this->categorie = $categorie;
+        $this->category = $Category;
 
         return $this;
     }
@@ -223,7 +223,7 @@ class Product
             'stock' => $this->getStock(),
             'creationDate' => $this->getCreationDate()->format('Y-m-d H:i:s'),
             'farm' => $this->getFarm()->getName(),
-            'categorie' => $this->getCategorie()->getName(),
+            'Category' => $this->getCategory()->getName(),
         ];
     }
 }

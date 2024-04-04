@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Categorie;
+use App\Entity\Category;
 use App\Entity\Farm;
 use App\Entity\Product;
 use DateTime;
@@ -21,9 +21,9 @@ class FarmFixtures extends Fixture
         $fruits = ['Pomme', 'Banane', 'Orange', 'Raisin', 'Fraise'];
 
         // Création d'une catégorie
-        $categorie1 = new Categorie();
-        $categorie1->setName('Fruits');
-        $manager->persist($categorie1);
+        $Category1 = new Category();
+        $Category1->setName('Fruits');
+        $manager->persist($Category1);
 
         for ($i = 0; $i < 3; $i++) {
             $farm = new Farm();
@@ -46,7 +46,7 @@ class FarmFixtures extends Fixture
                 $product->setPrice($faker->randomFloat(2, 0, 100));
                 $product->setStock($faker->randomNumber(2, false));
                 $product->setCreationDate(new DateTime());
-                $product->setCategorie($categorie1);
+                $product->setCategory($Category1);
                 $manager->persist($product);
             }
         }
