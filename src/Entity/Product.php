@@ -221,8 +221,7 @@ class Product
             'picture' => $this->getPicture(),
             'price' => $this->getPrice(),
             'stock' => $this->getStock(),
-            // 'creation_date' => $this->getCreationDate()->format('Y-m-d H:i:s'),
-            'creation_date' => $this->getCreationDate(),
+            'creationDate' => $this->getCreationDate()->format('Y-m-d H:i:s'),
             'farm' => $this->getFarm()->getName(),
             'categorie' => $this->getCategorie()->getName(),
         ];
