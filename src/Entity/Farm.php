@@ -237,4 +237,38 @@ class Farm
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        $listOpenHours = [];
+        foreach ($this->getOpenHours() as $openHours) {
+            $listOpenHours[] = [
+                "id" => $openHours->getId(),
+                "day" => $openHours->getDay(),
+                "start_am" => $openHours->getStartAm()->format('H:i'),
+                "end_am" => $openHours->getEndAm()->format('H:i'),
+                "start_pm" => $openHours->getStartPm()->format('H:i'),
+                "end_pm" => $openHours->getEndPm()->format('H:i')
+            ];
+        }
+
+        $listProducts = [];
+        foreach ($this->getProducts() as $product) {
+            $listProducts[] = $product->toArray();
+        }
+
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'email' => $this->getEmail(),
+            'phone' => $this->getPhone(),
+            'street' => $this->getStreet(),
+            'city' => $this->getCity(),
+            'postCode' => $this->getPostCode(),
+            'country' => $this->getCountry(),
+            'creationDate' => $this->getDateCreation()->format('Y-m-d H:i:s'),
+            'openHours' => $listOpenHours,
+            'products' => $listProducts,
+        ];
+    }
 }
