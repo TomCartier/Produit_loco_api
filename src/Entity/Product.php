@@ -48,6 +48,9 @@ class Product
     #[ORM\OneToMany(targetEntity: CartProduct::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $cartProducts;
 
+    #[ORM\Column(length: 10)]
+    private ?string $unit = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -223,7 +226,20 @@ class Product
             'stock' => $this->getStock(),
             'creationDate' => $this->getCreationDate()->format('Y-m-d H:i:s'),
             'farm' => $this->getFarm()->getName(),
-            'Category' => $this->getCategory()->getName(),
+            'category' => $this->getCategory()->getName(),
+            'unit' => $this->getUnit(),
         ];
+    }
+
+    public function getUnit(): ?string
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(string $unit): static
+    {
+        $this->unit = $unit;
+
+        return $this;
     }
 }
