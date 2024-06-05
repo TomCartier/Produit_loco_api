@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RoleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 class Role
@@ -16,8 +17,8 @@ class Role
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(mappedBy: 'role', cascade: ['persist', 'remove'])]
-    private ?User $user = null;
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'role')]
+    private Collection $users;
 
     public function getId(): ?int
     {
@@ -36,20 +37,8 @@ class Role
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUsers(): Collection
     {
-        return $this->user;
-    }
-
-    public function setUser(User $user): static
-    {
-        // set the owning side of the relation if necessary
-        if ($user->getRole() !== $this) {
-            $user->setRole($this);
-        }
-
-        $this->user = $user;
-
-        return $this;
+        return $this->users;
     }
 }

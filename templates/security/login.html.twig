@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter
+{% endblock %}
+
+{% block body %}
+	<h1>Connexion</h1>
+
+	{{ form_start(loginForm, {'action': path('app_login'), 'method': 'POST'}) }}
+	{{ form_row(loginForm._username) }}
+	{{ form_row(loginForm._password) }}
+	<button type="submit">Se connecter</button>
+	{{ form_end(loginForm) }}
+
+{% endblock %}

@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -46,8 +48,7 @@ class User
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_creation = null;
 
-    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'users')]
     private ?Role $role = null;
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
@@ -207,6 +208,22 @@ class User
         return $this;
     }
 
+    public function getRoles(): array
+    {
+        $roles = [$this->role->getName()];
+
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
     public function getFarm(): ?Farm
     {
         return $this->farm;
@@ -297,5 +314,30 @@ class User
         $this->userOrder = $userOrder;
 
         return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'firstName' => $this->getFirstname(),
+            'lastName' => $this->getLastname(),
+            'email' => $this->getEmail(),
+            'phone' => $this->getPhone(),
+            'address' => $this->getStreet(),
+            'postCode' => $this->getPostCode(),
+            'city' => $this->getCity(),
+            'country' => $this->getCountry(),
+        ];
     }
 }
