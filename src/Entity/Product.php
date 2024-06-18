@@ -221,7 +221,6 @@ class Product
             'id' => $this->getId(),
             'name' => $this->getName(),
             'description' => $this->getDescription(),
-            'picture' => $this->getPicture(),
             'price' => $this->getPrice(),
             'stock' => $this->getStock(),
             'creationDate' => $this->getCreationDate()->format('Y-m-d H:i:s'),

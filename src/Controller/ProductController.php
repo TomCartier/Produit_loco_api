@@ -37,4 +37,29 @@ class ProductController extends AbstractController
 
         return $this->json(['product' => $product->toArray()]);
     }
+
+    #[Route('/{id}/image', name: 'product_image')]
+    public function showImage(int $id, ProductRepository $productRepository): Response
+    {
+        $product = $productRepository->find($id);
+        if (!$product) {
+            throw $this->createNotFoundException('product not found');
+        }
+
+        $picture = $product->getPicture();
+        if (!$picture) {
+            throw $this->createNotFoundException('Image not found');
+        }
+
+        // Convertir le BLOB en chaîne de caractères
+        $pictureContent = stream_get_contents($picture);
+        if ($pictureContent === false) {
+            throw new \RuntimeException('Failed to read image content');
+        }
+
+        return new Response($pictureContent, 200, [
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'inline; filename="product_image.png"',
+        ]);
+    }
 }
