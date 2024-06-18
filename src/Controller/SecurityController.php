@@ -43,14 +43,6 @@ class SecurityController extends AbstractController
 
             if ($this->passwordHasher->isPasswordValid($user, $password)) {
                 $this->logger->info('Connexion réussie', ['username' => $username]);
-                // Retourne toutes les informations de l'utilisateur sauf le mot de passe
-                // $userData = [
-                //     'id' => $user->getId(),
-                //     'email' => $user->getEmail(),
-                //     'lastname' => $user->getLastname(),
-                //     'firstname' => $user->getFirstname(),
-                //     // Ajoutez d'autres champs selon les besoins
-                // ];
                 return $this->json(['user' => $user->toArray()]);
             } else {
                 $this->logger->info('Mot de passe incorrect', ['username' => $username]);
@@ -67,9 +59,10 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/logout', name: 'app_logout')]
-    public function logout(): void
+    public function logout(): Response
     {
-        // Le contrôleur peut être vide: il ne sera jamais exécuté!
-        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+        // Actions de déconnexion
+
+        return new Response('Déconnexion réussie', Response::HTTP_OK);
     }
 }

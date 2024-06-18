@@ -110,4 +110,17 @@ class Cart
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        $products = $this->getCartProducts();
+        $productsList = [];
+        foreach ($products as $product) {
+            $productsList[] = $product->toArray();
+        }
+        return [
+            'id' => $this->getId(),
+            'products' => $productsList,
+        ];
+    }
 }

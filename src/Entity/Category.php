@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
@@ -20,6 +21,9 @@ class Category
 
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'category')]
     private Collection $products;
+
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
+    private $picture = null;
 
     public function __construct()
     {
@@ -86,5 +90,17 @@ class Category
             'name' => $this->getName(),
             'products' => $listProducts,
         ];
+    }
+
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    public function setPicture($picture): static
+    {
+        $this->picture = $picture;
+
+        return $this;
     }
 }

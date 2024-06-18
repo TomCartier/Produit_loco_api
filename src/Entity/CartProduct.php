@@ -72,4 +72,13 @@ class CartProduct
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'product' => $this->getProduct()->toArray(),
+            'quantity' => $this->getQuantity()
+        ];
+    }
 }
