@@ -51,6 +51,34 @@ class CartController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/valide', name: 'valide', methods: ['POST'])]
+    public function valide($id, UserRepository $userRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $user = $userRepository->find($id);
+
+        if (!$user) {
+            return new JsonResponse(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $cart = $user->getCart();
+
+        if ($cart) {
+            foreach ($cart->getCartProducts() as $cartProduct) {
+                $entityManager->remove($cartProduct);
+            }
+
+            $user->setCart(null);
+            $entityManager->remove($cart);
+        }
+
+        $entityManager->flush();
+
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Cart validated and removed',
+        ], Response::HTTP_OK);
+    }
+
     #[Route('/{id}/{idItem}', name: 'item', methods: ['POST'])]
     public function item(int $id, int $idItem, UserRepository $userRepository, ProductRepository $productRepository, Request $request): JsonResponse
     {

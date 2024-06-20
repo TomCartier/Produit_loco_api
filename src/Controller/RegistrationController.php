@@ -67,4 +67,39 @@ class RegistrationController extends AbstractController
 
         return $this->json(['success' => false]);
     }
+
+    // TO CREATE A USER ON THE API
+    // #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
+    // public function login(Request $request, UserPasswordHasherInterface $passwordHasher, RoleRepository $roleRepository, CsrfTokenManagerInterface $csrfTokenManager): Response
+    // {
+    //     // Crée le formulaire d'inscription
+    //     $form = $this->createForm(UserRegistrationFormType::class);
+    //     $form->handleRequest($request);
+
+    //     // Vérifie si le formulaire a été soumis
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         /** @var User $user */
+    //         $user = $form->getData();
+
+    //         // Hash the password
+    //         $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
+
+    //         // Set the user role
+    //         $role = $roleRepository->findOneById(1);
+    //         $user->setRole($role);
+
+    //         // Set the creation date
+    //         $user->setDateCreation(new \DateTime());
+
+    //         // Persist the user to the database
+    //         $this->entityManager->persist($user);
+    //         $this->entityManager->flush();
+
+    //         return $this->json(['success' => true]);
+    //     }
+
+    //     return $this->render('registration/index.html.twig', [
+    //         'registrationForm' => $form->createView(),
+    //     ]);
+    // }
 }
